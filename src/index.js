@@ -64,7 +64,7 @@ document.querySelector('#allRecepies').onclick = function () {
     }
 }
 
-document.querySelector('#recepieSearch').addEventListener('input', function(e) {
+document.querySelector('#recepieSearch').addEventListener('blur', function(e) {
     if (e.currentTarget && e.currentTarget.value) {
         searchRecepies(e.currentTarget.value);
     }else{
