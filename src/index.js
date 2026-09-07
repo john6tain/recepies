@@ -65,7 +65,7 @@ document.querySelector('#allRecepies').onclick = function () {
 }
 
 document.querySelector('#recepieSearch').addEventListener('keydown', function(e) {
-   if (e.key === 'Enter' && e.currentTarget && e.currentTarget.value) {
+   if (e.key !== 'Enter'){ return }if(e.currentTarget && e.currentTarget.value) {
         searchRecepies(e.currentTarget.value);
     }else{
         reloadRecepies();
