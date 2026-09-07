@@ -15,12 +15,13 @@ module.exports = {
                 .then(Recepie => {
                     res.status(200).send({
                         success: true,
-                        message: 'You successfully created the recepie'
+                        // message: 'You successfully created the recepie'
+                        message: 'Успешно създадохте рецептата!'
                     });
                 })
                 .catch(error => {
-                    res.status(404).send({
-                        error: error
+                    res.status(500).send({
+                        message: error
                     });
                 });
 
@@ -35,12 +36,13 @@ module.exports = {
                 .then(Recepie => {
                     res.status(200).send({
                         success: true,
-                        message: 'You successfully updated your recepie'
+                        // message: 'You successfully updated your recepie'
+                        message: 'Успешно актуализирахте своята рецептата!'
                     });
                 })
                 .catch(error => {
-                    res.status(404).send({
-                        error: error
+                    res.status(500).send({
+                        message: error
                     });
                 });
                 return
@@ -49,15 +51,16 @@ module.exports = {
     },
     deleteRecepie: (req, res) => {
         let recepieData = req.body._id && req.body || JSON.parse(Object.keys(req.body).pop());
-        Recepie.remove({
+        Recepie.deleteOne({
             _id: recepieData._id
         }).then(existingRecepie => {
             return res.status(200).send({
-                message: "You have deleted the recepie"
+                // message: "You have deleted the recepie"
+                message: "Изтрихте рецептата успешно!"
             });
         }).catch(error => {
-            res.status(404).send({
-                error: error
+            res.status(500).send({
+                message: error
             });
         });
     },
@@ -66,12 +69,32 @@ module.exports = {
         .find()
         .then(recepies => {
             if (recepies.length === 0) {
-                return res.status(200).send({
+                return res.status(404).send({
                     recepies: [],
-                    message: "You don\'t have recepies in the DB"
+                    // message: "You don\'t have recepies in the DB"
+                    message: "Няма рецепти!"
                 });
 
             }
+            res.status(200).send({
+                recepies: recepies
+            });
+        });
+    },
+    search: (req, res) => {
+        Recepie
+        .find({
+            title: { $regex: `${req.query.title}`, $options: 'i' }
+        })
+        .then(recepies => {
+            if (recepies.length === 0) {
+                return res.status(404).send({
+                    recepies: [],
+                    message: "Не бяха намерени рецепти!"
+                });
+
+            }
+
             res.status(200).send({
                 recepies: recepies
             });

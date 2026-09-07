@@ -10,6 +10,7 @@ module.exports = (app) => {
     });
     app.get('/get', controllers.recepie.get);
     app.get('/length', controllers.recepie.length);
+    app.get('/search', controllers.recepie.search);
     app.post('/save', controllers.recepie.save);
     app.post('/delete', controllers.recepie.deleteRecepie);
 };
